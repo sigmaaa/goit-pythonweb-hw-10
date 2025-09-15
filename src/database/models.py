@@ -1,5 +1,5 @@
-from datetime import date
-from sqlalchemy import Integer, String, Date, DateTime, ForeignKey, func
+from datetime import datetime, date
+from sqlalchemy import Integer, Boolean, String, Date, DateTime, ForeignKey, func
 from sqlalchemy.orm import mapped_column, Mapped, DeclarativeBase, relationship
 
 
@@ -14,9 +14,9 @@ class User(Base):
     username: Mapped[str] = mapped_column(String(50), unique=True, nullable=False)
     email: Mapped[str] = mapped_column(String(100), unique=True, nullable=False)
     hashed_password: Mapped[str] = mapped_column(String(255), nullable=False)
-    created_at: Mapped[date] = mapped_column(DateTime, default=func.now())
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=func.now())
     avatar: Mapped[str | None] = mapped_column(String(255), nullable=True)
-
+    confirmed: Mapped[bool] = mapped_column(Boolean, default=False)
     contacts: Mapped[list["Contact"]] = relationship(back_populates="user")
 
 
