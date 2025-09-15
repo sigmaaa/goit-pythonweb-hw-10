@@ -16,5 +16,9 @@ class Config:
         f"@{POSTGRES_HOST}:{POSTGRES_PORT}/{POSTGRES_DB}"
     )
 
+    JWT_SECRET = os.getenv("JWT_SECRET", "your_secret_key")
+    JWT_ALGORITHM = os.getenv("JWT_ALGORITHM", "HS256")
+    JWT_EXPIRATION_SECONDS = os.getenv("JWT_EXPIRATION_SECONDS", 3600)
+
 
 config = Config()
