@@ -10,7 +10,6 @@ router = APIRouter(tags=["utils"])
 @router.get("/healthchecker")
 async def healthchecker(db: AsyncSession = Depends(get_db)):
     try:
-        # Виконуємо асинхронний запит
         result = await db.execute(text("SELECT 1"))
         result = result.scalar_one_or_none()
 
@@ -20,9 +19,15 @@ async def healthchecker(db: AsyncSession = Depends(get_db)):
                 detail="Database is not configured correctly",
             )
         return {"message": "Welcome to FastAPI!"}
+
     except Exception as e:
-        print(e)
+        # Log full traceback
+        import traceback
+
+        traceback.print_exc()
+
+        # Show error type + message in response
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail="Error connecting to the database",
+            detail=f"{e.__class__.__name__}: {e}",
         )
