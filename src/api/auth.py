@@ -95,6 +95,9 @@ async def request_email(
     user_service = UserService(db)
     user = await user_service.get_user_by_email(body.email)
 
+    if user is None:
+        return {"message: Користувача з такою поштою не знайдено"}
+
     if user.confirmed:
         return {"message": "Ваша електронна пошта вже підтверджена"}
     if user:
